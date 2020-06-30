@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="games_achievement_hidden_desc">Pelaamalla lisää saat tietoja tästä saavutuksesta.</string>
+    <string name="games_achievement_hidden_name">Salainen</string>
+    <string name="games_achievement_list_title">Saavutukset</string>
+</resources>

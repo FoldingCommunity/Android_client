@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="games_achievement_hidden_desc">Continue a jogar para saber mais.</string>
+    <string name="games_achievement_hidden_name">Segredo</string>
+    <string name="games_achievement_list_title">Conquistas</string>
+</resources>

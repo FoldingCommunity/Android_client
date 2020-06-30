@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/adimaggio2021/Downloads/Folding-home-master/folding-android/libraries/google-games/src/main/assets"/><source path="/Users/adimaggio2021/Downloads/Folding-home-master/folding-android/libraries/google-games/build/generated/assets/shaders/release"/></dataSet><dataSet config="release"><source path="/Users/adimaggio2021/Downloads/Folding-home-master/folding-android/libraries/google-games/src/release/assets"/></dataSet></merger>

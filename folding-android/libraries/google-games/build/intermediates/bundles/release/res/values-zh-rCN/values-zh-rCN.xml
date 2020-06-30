@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="games_achievement_hidden_desc">继续玩下去就能揭开这项成就的秘密！</string>
+    <string name="games_achievement_hidden_name">秘密</string>
+    <string name="games_achievement_list_title">成就</string>
+</resources>

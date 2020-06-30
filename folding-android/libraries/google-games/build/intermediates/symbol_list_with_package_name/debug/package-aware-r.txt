@@ -1,0 +1,6 @@
+com.sonymobile.gamification
+drawable ic_achievements
+drawable ic_lock_grey
+string games_achievement_hidden_desc
+string games_achievement_hidden_name
+string games_achievement_list_title

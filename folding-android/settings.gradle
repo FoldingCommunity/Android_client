@@ -1,0 +1,3 @@
+rootProject.name = 'folding-android'
+include ':app'
+include ':libraries:google-games'

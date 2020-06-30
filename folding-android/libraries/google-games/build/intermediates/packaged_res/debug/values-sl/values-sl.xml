@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="games_achievement_hidden_desc">Igrajte naprej, da boste izvedeli več.</string>
+    <string name="games_achievement_hidden_name">Skrit</string>
+    <string name="games_achievement_list_title">Dosežki</string>
+</resources>

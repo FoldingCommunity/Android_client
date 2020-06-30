@@ -1,0 +1,25 @@
+{
+  "name": "gcomp_node",
+  "version": "1.0.0",
+  "description": "Run client node",
+  "main": "client.js",
+  "dependencies": {
+    "nan": "^2.14.1",
+    "openmm": "^0.1.0",
+    "x509": "^0.3.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adimaggio2021/nodemm.git"
+  },
+  "author": "AnthonyDiMaggio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adimaggio2021/nodemm/issues"
+  },
+  "homepage": "https://github.com/adimaggio2021/nodemm#readme"
+}

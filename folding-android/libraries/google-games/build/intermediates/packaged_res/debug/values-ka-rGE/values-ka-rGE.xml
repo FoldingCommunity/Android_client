@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="games_achievement_hidden_desc">მეტის გასაგებად გააგრძელეთ თამაში.</string>
+    <string name="games_achievement_hidden_name">საიდუმლო</string>
+    <string name="games_achievement_list_title">მიღწევები</string>
+</resources>

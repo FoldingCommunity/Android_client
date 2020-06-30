@@ -1,0 +1,5 @@
+int drawable ic_achievements 0x7f020000
+int drawable ic_lock_grey 0x7f020001
+int string games_achievement_hidden_desc 0x7f030000
+int string games_achievement_hidden_name 0x7f030001
+int string games_achievement_list_title 0x7f030002

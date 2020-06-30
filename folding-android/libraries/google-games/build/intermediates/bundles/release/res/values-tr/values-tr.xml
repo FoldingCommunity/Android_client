@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="games_achievement_hidden_desc">Daha fazla bilgi edinmek için oynamaya devam edin.</string>
+    <string name="games_achievement_hidden_name">Sır</string>
+    <string name="games_achievement_list_title">Başarılar</string>
+</resources>

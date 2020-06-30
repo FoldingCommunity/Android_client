@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_stats">
+
+    <activity
+        android:id="@+id/nav_stats"
+        android:name="com.sonymobile.androidapp.gridcomputing.activities.StatsActivity"
+        android:label="Stats"
+        tools:layout="@layout/activity_stats"/>
+
+    <activity
+        android:id="@+id/nav_dash"
+        android:name="com.sonymobile.androidapp.gridcomputing.activities.SummaryActivity"
+        android:label="Dashboard"
+        tools:layout="@layout/activity_summary"/>
+
+    <activity
+        android:id="@+id/nav_settings"
+        android:name="com.sonymobile.androidapp.gridcomputing.activities.SettingsActivity"
+        android:label="Settings"
+        tools:layout="@layout/settings_activity"/>
+
+
+</navigation>

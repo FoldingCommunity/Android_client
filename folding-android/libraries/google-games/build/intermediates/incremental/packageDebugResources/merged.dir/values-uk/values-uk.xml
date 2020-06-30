@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="games_achievement_hidden_desc">Продовжуйте грати, щоб дізнатися більше.</string>
+    <string name="games_achievement_hidden_name">Таємниця</string>
+    <string name="games_achievement_list_title">Досягнення</string>
+</resources>

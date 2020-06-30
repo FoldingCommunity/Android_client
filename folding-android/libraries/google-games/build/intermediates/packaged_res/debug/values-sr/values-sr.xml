@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="games_achievement_hidden_desc">Наставите да играте да бисте сазнали више.</string>
+    <string name="games_achievement_hidden_name">Тајно</string>
+    <string name="games_achievement_list_title">Достигнућа</string>
+</resources>

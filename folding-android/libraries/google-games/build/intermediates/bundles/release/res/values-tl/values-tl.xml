@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="games_achievement_hidden_desc">Maglaro lang nang maglaro upang matuto nang higit pa.</string>
+    <string name="games_achievement_hidden_name">Lihim</string>
+    <string name="games_achievement_list_title">Mga Nakamit</string>
+</resources>

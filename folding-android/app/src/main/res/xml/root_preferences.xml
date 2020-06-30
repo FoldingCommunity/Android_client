@@ -1,0 +1,36 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <PreferenceCategory android:title="Info">
+
+    <Preference
+        android:summary="Learn more about F@H"
+        android:title="About Us">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://foldingathome.org/about/" />
+    </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Control Board">
+    <SwitchPreference
+        android:key="EXECUTION_ENABLED_KEY"
+        android:title="Folding"
+        android:summary="Click to enable or disable computation."
+        android:defaultValue="true"/>
+
+        <SeekBarPreference
+            android:defaultValue="70"
+            android:key="MIN_BATTERY_KEY"
+            android:max="100"
+            android:title="Minimum percent battery level to start job:"
+            app:showSeekBarValue="true"
+            app:min="0" />
+
+    </PreferenceCategory>
+
+
+
+</PreferenceScreen>

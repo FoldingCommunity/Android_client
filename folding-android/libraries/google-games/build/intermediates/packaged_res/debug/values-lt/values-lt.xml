@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="games_achievement_hidden_desc">Jei norite sužinoti daugiau, žaiskite toliau.</string>
+    <string name="games_achievement_hidden_name">Paslaptis</string>
+    <string name="games_achievement_list_title">Laimėjimai</string>
+</resources>

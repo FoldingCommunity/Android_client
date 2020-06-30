@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="games_achievement_hidden_desc">واصل اللعب للتعرف على مزيد من المعلومات.</string>
+    <string name="games_achievement_hidden_name">سري</string>
+    <string name="games_achievement_list_title">الإنجازات</string>
+</resources>

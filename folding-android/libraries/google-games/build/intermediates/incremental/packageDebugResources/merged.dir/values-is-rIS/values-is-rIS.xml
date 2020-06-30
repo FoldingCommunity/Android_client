@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="games_achievement_hidden_desc">Haltu áfram að spila til að fá frekari upplýsingar.</string>
+    <string name="games_achievement_hidden_name">Leyndarmál</string>
+    <string name="games_achievement_list_title">Afrek</string>
+</resources>

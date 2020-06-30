@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="games_achievement_hidden_desc">Ещё немного, и вы узнаете, что это за достижение!</string>
+    <string name="games_achievement_hidden_name">Пока неизвестно</string>
+    <string name="games_achievement_list_title">Достижения</string>
+</resources>
