@@ -1,32 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  Licensed under the LICENSE.
-  Copyright 2017, Sony Mobile Communications Inc.
--->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+<?xml version="1.0" encoding="UTF-8"?>
 
-    <ImageView
-        android:id="@+id/condition_detail_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+<!-- Licensed under the LICENSE. Copyright 2017, Sony Mobile Communications Inc. -->
 
-    <TextView
-        android:id="@+id/condition_detail_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_medium"
-        android:textStyle="bold" />
+    <LinearLayout android:orientation="vertical" android:gravity="center" android:layout_height="match_parent" android:layout_width="match_parent" xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/condition_detail_text"
-        android:layout_width="wrap_content"
-        android:maxWidth="@dimen/conditions_text_max_width"
-        android:gravity="center"
-        android:textSize="@dimen/text_small"
-        android:layout_height="wrap_content" />
+  <ImageView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/condition_detail_image"/>
+
+  <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/condition_detail_title" android:textStyle="bold" android:textSize="@dimen/text_medium" android:textColor="#FFFFFF"/>
+
+  <TextView android:gravity="center" android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/condition_detail_text" android:textSize="@dimen/text_small" android:maxWidth="@dimen/conditions_text_max_width" android:textColor="#FFFFFF"/>
 
 </LinearLayout>

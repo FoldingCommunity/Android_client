@@ -68,11 +68,11 @@
         android:id="@+id/view3"
         android:layout_width="339dp"
         android:layout_height="164dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginBottom="50dp"
         android:background="#4A4444"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/credit_text"
@@ -198,13 +198,13 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="13dp"
         android:fontFamily="@font/centurygothic"
         android:text="Recent Projects You've Contributed To:"
         android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/view3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch1" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView3"

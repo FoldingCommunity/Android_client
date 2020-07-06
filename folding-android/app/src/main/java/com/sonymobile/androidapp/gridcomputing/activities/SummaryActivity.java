@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import com.bumptech.glide.Glide;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sonymobile.androidapp.gridcomputing.R;
+import com.sonymobile.androidapp.gridcomputing.activities.ui.login.LoginActivity;
 import com.sonymobile.androidapp.gridcomputing.adapters.ConditionsSlidePagerAdapter;
 import com.sonymobile.androidapp.gridcomputing.conditions.ConditionType;
 import com.sonymobile.androidapp.gridcomputing.conditions.ConditionsHandler;
@@ -36,6 +38,7 @@ import com.sonymobile.androidapp.gridcomputing.messages.JobExecutionMessage;
 import com.sonymobile.androidapp.gridcomputing.notifications.NotificationHelper;
 import com.sonymobile.androidapp.gridcomputing.notifications.NotificationStatus;
 import com.sonymobile.androidapp.gridcomputing.preferences.MiscPref;
+import com.sonymobile.androidapp.gridcomputing.preferences.PrefUtils;
 import com.sonymobile.androidapp.gridcomputing.preferences.RunningPref;
 import com.sonymobile.androidapp.gridcomputing.preferences.SettingsPref;
 import com.sonymobile.androidapp.gridcomputing.service.ServiceManager;
@@ -124,6 +127,10 @@ public class SummaryActivity extends GameLoginActivity implements
      */
     private LottieAnimationView anim;
 
+    private View coverview;
+
+    private Button logout;
+
 
 
     @Override
@@ -131,12 +138,22 @@ public class SummaryActivity extends GameLoginActivity implements
         super.onCreate(savedState);
         Log.d("Activity > SummaryActivity onCreate");
         overridePendingTransition(0, 0);
+        Bundle bundle = getIntent().getExtras();
+        boolean check = false;
+        if(bundle != null){
+            check = bundle.getBoolean("CHECK");
+        }
 
         setContentView(R.layout.activity_summary);
         mStatusView = findViewById(R.id.status_bar);
         mConditionsLayout = findViewById(R.id.summary_conditions_layout);
         mConditionsViewPager = (ViewPager) findViewById(R.id.summary_view_pager);
         mConditionsIndicator = (ViewGroup) findViewById(R.id.summary_page_indicator_container);
+        coverview = findViewById(R.id.coverview);
+        coverview.setVisibility(View.GONE);
+        logout = findViewById(R.id.logout);
+        logout.setOnClickListener(this);
+
 
         /*mBackgroundImage = findViewById(R.id.AnimView);
         Glide.with(this).load(R.drawable.animationnetgif).into(mBackgroundImage);*/
@@ -157,6 +174,14 @@ public class SummaryActivity extends GameLoginActivity implements
 
         mMenuSwitch = (CheckableImageButton) findViewById(R.id.summary_menu_power_toggle);
         mMenuSwitch.setOnClickListener(this);
+
+        //final boolean pause = PrefUtils.getBooleanValue("account_pref", "CHECK", false);
+        //Log.d("CHECK: " + String.valueOf(pause));
+        boolean ischekc = mMenuSwitch.isChecked();
+        Log.d("ISCHECK:" + String.valueOf(ischekc));
+        if(!ischekc && check){
+            mMenuSwitch.performClick();
+        }
 
         //  toggleShareButtons();
 
@@ -183,12 +208,13 @@ public class SummaryActivity extends GameLoginActivity implements
 
         //setup tab bar
         BottomNavigationView navView = findViewById(R.id.nav_view2);
-        navView.setSelectedItemId(R.id.navigation_dashboard);
+       // navView.setSelectedItemId(R.id.navigation_dashboard);
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.navigation_home:
+                        //PrefUtils.setBooleanValue("account_pref", "CHECK", true);
                         startActivity(new Intent(getApplicationContext(), StatsActivity.class));
                         overridePendingTransition(0,0);
                         return true;
@@ -197,6 +223,7 @@ public class SummaryActivity extends GameLoginActivity implements
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.navigation_notifications:
+                        //PrefUtils.setBooleanValue("account_pref", "CHECK", true);
                         startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                         overridePendingTransition(0,0);
                         return true;
@@ -205,6 +232,7 @@ public class SummaryActivity extends GameLoginActivity implements
                 return false;
             }
         });
+        navView.setSelectedItemId(R.id.navigation_dashboard);
 
     }
 
@@ -290,6 +318,10 @@ public class SummaryActivity extends GameLoginActivity implements
         } else if (view.getId() == R.id.summary_contributed_time_layout) {
             final Intent intent = new Intent(this, ReportsActivity.class);
             startActivity(intent);
+        } else if(view.getId() == R.id.logout) {
+            PrefUtils.setBooleanValue("account_pref", "STATUS", false);
+            final Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -317,6 +349,7 @@ public class SummaryActivity extends GameLoginActivity implements
     private void turnOff() {
         ViewUtils.updateStatusBar(mStatusView, false, false, false, false, false);
         anim.pauseAnimation();
+        coverview.setVisibility(View.GONE);
     }
 
     /**
@@ -340,11 +373,14 @@ public class SummaryActivity extends GameLoginActivity implements
         if(enabled && !paused){
             if(battery && charger && wifi && !paused){
                 anim.playAnimation();
+                coverview.setVisibility(View.GONE);
             } else{
                 anim.pauseAnimation();
+                coverview.setVisibility(View.VISIBLE);
             }
         }else{
             anim.pauseAnimation();
+            coverview.setVisibility(View.GONE);
         }
 
         if (!enabled && JobCheckpointsContract.get24HourAccumulatedTime() > 0) {
@@ -409,6 +445,7 @@ public class SummaryActivity extends GameLoginActivity implements
                 notMetList.add(ConditionType.WIFI);
             }
             mAdapter.setConditionsNotMetList(notMetList);
+            if(notMetList.size()>0){coverview.setVisibility(View.VISIBLE);}
 
             //adding the indicators and selecting the first one
             mConditionsIndicator.removeAllViews();

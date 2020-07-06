@@ -48,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = findViewById(R.id.login);
 
         final Intent i = new Intent(LoginActivity.this, SummaryActivity.class);
+        i.putExtra("CHECK", true);
+
 
         boolean status = PrefUtils.getBooleanValue("account_pref", "STATUS", false);
         Log.d("STATUS:" + String.valueOf(status));
@@ -145,6 +147,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         final Intent i = new Intent(LoginActivity.this, SummaryActivity.class);
+        i.putExtra("CHECK", true);
 
         boolean status = PrefUtils.getBooleanValue("account_pref", "STATUS", false);
         Log.d("STATUS:" + String.valueOf(status));

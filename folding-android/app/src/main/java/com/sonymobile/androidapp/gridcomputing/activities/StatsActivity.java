@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sonymobile.androidapp.gridcomputing.R;
 import com.sonymobile.androidapp.gridcomputing.log.Log;
-import com.sonymobile.androidapp.gridcomputing.utils.ApplicationData;
 import com.sonymobile.androidapp.gridcomputing.preferences.PrefUtils;
+import com.sonymobile.androidapp.gridcomputing.utils.ApplicationData;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -41,10 +41,10 @@ import androidx.navigation.ui.NavigationUI;
 
 import static java.lang.Thread.sleep;
 
-public class StatsActivity extends AppCompatActivity {
+public class StatsActivity extends AppCompatActivity implements View.OnClickListener {
     //Donor Stats Variables
     private String donorJSON="";
-    private String donorName = PrefUtils.getStringValue("account_pref", "USERNAME", "jcoffland");
+    private String donorName = "jcoffland"; //((ApplicationData) getApplication()).getName();
     private String url="https://stats.foldingathome.org/api/donor/"+donorName;
     private int donorwus = 0;
     private int donorRank = 0;
@@ -71,34 +71,34 @@ public class StatsActivity extends AppCompatActivity {
 
     //layout variabes
 
-// Donor Stats retrieval function
-public void DonorStats(){
-    OkHttpClient client = new OkHttpClient();
-    Request request = new Request.Builder()
-            .url(url)
-            .build();
-    client.newCall(request).enqueue(new Callback() {
-        @Override
-        public void onFailure(Call call, IOException e) {
-            e.printStackTrace();
-        }
-        public void onResponse(Call call, Response response) throws IOException {
-            if (response.isSuccessful()) {
-                donorJSON = response.body().string();
-                try {
-                    ParseDonorJSON();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+    // Donor Stats retrieval function
+    public void DonorStats(){
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    donorJSON = response.body().string();
+                    try {
+                        ParseDonorJSON();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-        }
-    });
-}
+        });
+    }
     public void ParseDonorJSON() throws JSONException {
         JSONObject donorJSONobj = new JSONObject(donorJSON);
         donorwus = (int) donorJSONobj.get("wus");
         donorRank = (int)  donorJSONobj.get("rank");
-        donorCredit = (long) donorJSONobj.get("credit");
+        donorCredit = (long)  donorJSONobj.getLong("credit");
         totalUsers= (int) donorJSONobj.get("total_users");
         Log.d(String.valueOf(donorRank));
         Log.d(String.valueOf(totalUsers));
@@ -117,30 +117,30 @@ public void DonorStats(){
     }
 
 
-// Team Stats retrieval function
-public void TeamStats() {
-    OkHttpClient client = new OkHttpClient();
-    Log.d(url2);
-    Request request = new Request.Builder()
-            .url(url2)
-            .build();
-    client.newCall(request).enqueue(new Callback() {
-        @Override
-        public void onFailure(Call call, IOException e) {
-            e.printStackTrace();
-        }
-        public void onResponse(Call call, Response response) throws IOException {
-            if (response.isSuccessful()) {
-                teamJSON = response.body().string();
-                try {
-                    ParseTeamJSON();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+    // Team Stats retrieval function
+    public void TeamStats() {
+        OkHttpClient client = new OkHttpClient();
+        Log.d(url2);
+        Request request = new Request.Builder()
+                .url(url2)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    teamJSON = response.body().string();
+                    try {
+                        ParseTeamJSON();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-        }
-    });
-}
+        });
+    }
     public void ParseTeamJSON() throws JSONException {
         JSONObject teamJSONobj = new JSONObject(teamJSON);
         teamwus = (int)teamJSONobj.get("wus");
@@ -153,7 +153,7 @@ public void TeamStats() {
         teamPercentile= (int)((1.0-((float)teamRank)/((float)total_teams))*1000.0)/10.0;
         Log.d(String.valueOf(((float)teamRank)/((float)total_teams)));
         Log.d(String.valueOf(teamPercentile));
-        teamCredit = (long) teamJSONobj.get("credit");
+        teamCredit = (long) teamJSONobj.getLong("credit");
         JSONArray teamarr = teamJSONobj.getJSONArray("donors");
         int numOfMembers=teamarr.length();
         for (int i=0; i<teamarr.length(); i++){
@@ -167,74 +167,74 @@ public void TeamStats() {
         // uses https://github.com/stleary/JSON-java
 
     }
-//Recent Projects retrieval
-public void RecentProjects() {
-    Log.d("in here");
-    final OkHttpClient client = new OkHttpClient();
-    Request request = new Request.Builder()
-            .url(url3)
-            .build();
-    client.newCall(request).enqueue(new Callback() {
-                                        @Override
-                                        public void onFailure(Call call, IOException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                        public void onResponse(Call call, Response response) throws IOException {
-                                            if (response.isSuccessful()) {
-                                                String f = response.body().string();
-                                                projectsList = f.substring(1, f.length() - 1);
-                                                String[] temparr = projectsList.split(",");
-                                                int i=0;
-
-                                                while (projectInfo[3]==null && i<temparr.length){
-                                                    Log.d("while loop");
-                                                    Log.d(projectInfo[3]);
-                                                    projectInfo[0] = temparr[temparr.length - 1 - i];
-                                                    projectInfo = projectRequests(projectInfo);
-                                                    i++;
-                                                }
-
-                                                }
-                                            }
-                                        });
-                                    }
-
-
-// call another request
-            public String[] projectRequests(String[] projectdata) {
-                final String [] temparr2=projectdata;
-                String url4= "https://api.foldingathome.org/project/"+projectdata[0];
-                final OkHttpClient client = new OkHttpClient();
-                Request request2 = new Request.Builder()
-                        .url(url4)
-                        .build();
-                client.newCall(request2).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                    }
-                    public void onResponse(Call call, Response response) throws IOException {
-                        if (response.isSuccessful()){
-                            String projectJSON=response.body().string();
-                            JSONObject projectJSONobj= null;
-                            try {
-                                projectJSONobj = new JSONObject(projectJSON);
-                                temparr2[1]=projectJSONobj.getString("manager");
-                                temparr2[2]=projectJSONobj.getString("cause");
-                                temparr2[3]=projectJSONobj.getString("description");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                            // uses https://github.com/stleary/JSON-java
-
-
-                        }}});
-            return temparr2;
+    //Recent Projects retrieval
+    public void RecentProjects() {
+        Log.d("in here");
+        final OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url3)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
             }
 
-// layout elements variables
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String f = response.body().string();
+                    projectsList = f.substring(1, f.length() - 1);
+                    String[] temparr = projectsList.split(",");
+                    int i=0;
+
+                    while (projectInfo[3]==null && i<temparr.length){
+                        Log.d("while loop");
+                        Log.d(projectInfo[3]);
+                        projectInfo[0] = temparr[temparr.length - 1 - i];
+                        projectInfo = projectRequests(projectInfo);
+                        i++;
+                    }
+
+                }
+            }
+        });
+    }
+
+
+    // call another request
+    public String[] projectRequests(String[] projectdata) {
+        final String [] temparr2=projectdata;
+        String url4= "https://api.foldingathome.org/project/"+projectdata[0];
+        final OkHttpClient client = new OkHttpClient();
+        Request request2 = new Request.Builder()
+                .url(url4)
+                .build();
+        client.newCall(request2).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()){
+                    String projectJSON=response.body().string();
+                    JSONObject projectJSONobj= null;
+                    try {
+                        projectJSONobj = new JSONObject(projectJSON);
+                        temparr2[1]=projectJSONobj.getString("manager");
+                        temparr2[2]=projectJSONobj.getString("cause");
+                        temparr2[3]=projectJSONobj.getString("description");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    // uses https://github.com/stleary/JSON-java
+
+
+                }}});
+        return temparr2;
+    }
+
+    // layout elements variables
     private TextView creditText;
     private TextView rankText;
     private TextView percentileText;
@@ -265,13 +265,16 @@ public void RecentProjects() {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Log.d("1");
         TeamStats();
+        Log.d("2");
         RecentProjects();
+        Log.d("3");
         Log.d(String.valueOf(donorCredit));
         Log.d(String.valueOf(donorpercentile));
         Log.d(String.valueOf(donorRank));
         try {
-            sleep(350);
+            sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -326,13 +329,13 @@ public void RecentProjects() {
                     creditText.setText(Long.toString(teamCredit) + " Pts.");
                 }
                 else {
-                        name.setText(donorName);
-                        progressWheel.setProgress((int)donorpercentile);
-                        percentileText.setText(String.valueOf(donorpercentile) + " Percentile");
-                        rankText.setText("WUs: " + Integer.toString(donorRank));
-                        creditText.setText(Long.toString(donorCredit) + "Pts.");
-                    }
+                    name.setText(donorName);
+                    progressWheel.setProgress((int)donorpercentile);
+                    percentileText.setText(String.valueOf(donorpercentile) + " Percentile");
+                    rankText.setText("WUs: " + Integer.toString(donorRank));
+                    creditText.setText(Long.toString(donorCredit) + "Pts.");
                 }
+            }
         });
 
         BottomNavigationView navView = findViewById(R.id.nav_view1);
@@ -427,8 +430,8 @@ public void RecentProjects() {
             researchID.setAlpha(0.0f);
             researchTypeText.setAlpha(0.0f);
             researchDescription.setAlpha(0.0f);
-            v3.setAlpha(0.0f);
             typeImage.setVisibility(View.GONE);
+            v3.setAlpha(0.0f);
         } else {
             typeImage.setVisibility(View.VISIBLE);
             prompt.setAlpha(1.0F);
@@ -464,7 +467,62 @@ public void RecentProjects() {
 
 
 
+
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+          /*  case R.id.button2:
+                UpdateResearch(0);
+                b1.setBackgroundColor(getResources().getColor(R.color.orange));
+                b2.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+                b3.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+                b4.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+                b5.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+
+            case R.id.button3:
+                UpdateResearch(1);
+                b2.setBackgroundColor(getResources().getColor(R.color.orange));
+                b1.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+                b3.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+                b4.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+                b5.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+
+            case R.id.button4:
+                UpdateResearch(2);
+                b3.setBackgroundColor(getResources().getColor(R.color.orange));
+                b2.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+                b1.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+                b4.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+                b5.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+
+            case R.id.button5:
+                UpdateResearch(3);
+                b4.setBackgroundColor(getResources().getColor(R.color.orange));
+                b2.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+                b3.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+                b1.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+                b5.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+
+            case R.id.button6:
+                UpdateResearch(4);
+                b5.setBackgroundColor(getResources().getColor(R.color.orange));
+                b2.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+                b3.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+                b4.setBackgroundColor(getResources().getColor(R.color.sony_gray));
+                b1.setBackgroundColor(getResources().getColor(R.color.sony_gray));*/
+
+
+
+
+
+
+        }
+
+    }
+
+
+
 }
-
-
 

@@ -15,19 +15,19 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.SettingsActivity"
-            android:label="@string/title_activity_settings">
+            android:label="@string/title_activity_settings" android:noHistory="true">
 
         </activity>
         <activity
             android:name=".activities.ui.login.LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.StatsActivity" />
+        <activity android:name=".activities.StatsActivity" android:noHistory="true"/>
         <activity
             android:name=".activities.WizardActivity"
             android:screenOrientation="portrait" />
