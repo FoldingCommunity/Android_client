@@ -33,6 +33,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SummaryActivity"
+            android:noHistory="true"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">

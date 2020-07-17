@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sonymobile.androidapp.gridcomputing.R;
 import com.sonymobile.androidapp.gridcomputing.log.Log;
-import com.sonymobile.androidapp.gridcomputing.preferences.PrefUtils;
-import com.sonymobile.androidapp.gridcomputing.utils.ApplicationData;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -33,11 +31,6 @@ import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import static java.lang.Thread.sleep;
 
@@ -259,16 +252,54 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         Log.d("IN");
         setContentView(R.layout.activity_stats);
-        DonorStats();
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+
+                try {
+                    DonorStats();
+                } catch (Exception ex) {
+                    Log.d(ex.toString());
+                }
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void result) {
+                percentileText.setText(String.valueOf(donorpercentile) + " Percentile");
+                rankText.setText("WUs: " + Integer.toString(donorwus));
+                creditText.setText(Long.toString(donorCredit) + " Pts.");
+                progressWheel = findViewById(R.id.progressWheel);
+                progressWheel.setProgress((int)donorpercentile);
+                name.setText(donorName);
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... params) {
+
+                        try {
+                            TeamStats();
+                        } catch (Exception ex) {
+                            Log.d(ex.toString());
+                        }
+                        return null;
+                    }
+                    @Override
+                    protected void onPostExecute(Void result) {
+                        switch1.setVisibility(View.VISIBLE);
+
+                    }
+                }.execute();
+            }
+        }.execute();
+
         try {
             sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Log.d("1");
-        TeamStats();
+        //TeamStats();
         Log.d("2");
-        RecentProjects();
+        //RecentProjects();
         Log.d("3");
         Log.d(String.valueOf(donorCredit));
         Log.d(String.valueOf(donorpercentile));
@@ -287,16 +318,17 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         percentileText = findViewById(R.id.Percentile_text);
         name = findViewById(R.id.textView3);
         switch1 = findViewById(R.id.switch1);
+        switch1.setVisibility(View.GONE);
         researchTypeText = findViewById(R.id.researchtype);
         researchID = findViewById(R.id.researchid);
         researchDescription = findViewById(R.id.desc_text);
         researchDescription.setMovementMethod(new ScrollingMovementMethod());
-        percentileText.setText(String.valueOf(donorpercentile) + " Percentile");
+     /*   percentileText.setText(String.valueOf(donorpercentile) + " Percentile");
         rankText.setText("WUs: " + Integer.toString(donorwus));
         creditText.setText(Long.toString(donorCredit) + " Pts.");
         progressWheel = findViewById(R.id.progressWheel);
         progressWheel.setProgress((int)donorpercentile);
-        name.setText(donorName);
+        name.setText(donorName); */
        /* b1 = findViewById(R.id.button2);
         b2 = findViewById(R.id.button3);
         b3 = findViewById(R.id.button4);
@@ -365,9 +397,9 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         });
 
 
-        new AsyncTask<Void,Void,String[]>() {
+        new AsyncTask<Void,Void,Void>() {
             @Override
-            protected String[] doInBackground(Void... params) {
+            protected Void doInBackground(Void... params) {
 
                 try {
                     Log.d("in here");
@@ -395,7 +427,7 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
                                     projectInfo = projectRequests(projectInfo);
                                     i++;
                                 }
-                                Log.d(projectInfo[3]);
+                                Log.d("PI:" + projectInfo[3]);
 
                             }
                         }
@@ -403,17 +435,16 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
                 } catch (Exception ex) {
                     Log.d(ex.toString());
                 }
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void result) {
                 try {
-                    sleep(500);
+                    sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Log.d("return");
-                return projectInfo;
-            }
-            @Override
-            protected void onPostExecute(String[] result) {
-                displayResearch(result);
+                displayResearch();
             }
         }.execute();
 
@@ -423,7 +454,7 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    public void displayResearch(String[] projectInfo){
+    public void displayResearch(){
         Log.d("DISPLAY: " + projectInfo[2]);
         if(projectInfo[3] == null){
             prompt.setAlpha(0.0F);
@@ -525,4 +556,3 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
 
 
 }
-
