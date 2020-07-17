@@ -377,8 +377,8 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.navigation_home:
-                        startActivity(new Intent(getApplicationContext(), StatsActivity.class));
-                        overridePendingTransition(0,0);
+                     /*   startActivity(new Intent(getApplicationContext(), StatsActivity.class));
+                        overridePendingTransition(0,0); */
                         return true;
                     case R.id.navigation_dashboard:
                         startActivity(new Intent(getApplicationContext(), SummaryActivity.class));
