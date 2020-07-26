@@ -227,4 +227,17 @@
         app:layout_constraintTop_toTopOf="@+id/view3"
         app:srcCompat="@drawable/undefined" />
 
+    <Button
+        android:id="@+id/shareButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/boldcenturygothic"
+        android:text="Share"
+        android:textColor="#FFFFFF"
+        android:background="#1B1212"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

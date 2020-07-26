@@ -29,6 +29,12 @@
             app:showSeekBarValue="true"
             app:min="0" />
 
+        <SwitchPreference
+            android:key="CELLULAR_ENABLED_KEY"
+            android:title="Mobile Folding"
+            android:summary="Allow folding on cellular networks."
+            android:defaultValue="false"/>
+
     </PreferenceCategory>
 
 

@@ -239,6 +239,7 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
     private TextView prompt;
     private ImageView typeImage;
     private ProgressBar progressWheel;
+    private Button share;
     private Button b1;
     private Button b2;
     private Button b3;
@@ -323,6 +324,8 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         researchID = findViewById(R.id.researchid);
         researchDescription = findViewById(R.id.desc_text);
         researchDescription.setMovementMethod(new ScrollingMovementMethod());
+        share = findViewById(R.id.shareButton);
+        share.setOnClickListener(this);
      /*   percentileText.setText(String.valueOf(donorpercentile) + " Percentile");
         rankText.setText("WUs: " + Integer.toString(donorwus));
         creditText.setText(Long.toString(donorCredit) + " Pts.");
@@ -504,6 +507,12 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.shareButton:
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                String shareBody = "I completed " + String.valueOf(donorwus) + " Work Units and earned " + String.valueOf(donorCredit) + " points for Folding@Home";
+                i.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(i, "Share via"));
           /*  case R.id.button2:
                 UpdateResearch(0);
                 b1.setBackgroundColor(getResources().getColor(R.color.orange));

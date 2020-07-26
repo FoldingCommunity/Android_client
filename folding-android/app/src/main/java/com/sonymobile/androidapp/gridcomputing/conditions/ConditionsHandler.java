@@ -133,6 +133,10 @@ public final class ConditionsHandler extends BroadcastReceiver implements AssetC
      */
     private Handler mAutoCheckHandler = new Handler();
 
+    //whether cellular connections are allowed by user
+
+    private static boolean cellularOn;
+
     /**
      * Simple constructor.
      */
@@ -142,6 +146,7 @@ public final class ConditionsHandler extends BroadcastReceiver implements AssetC
         mConditionCallbackCount = new AtomicInteger();
         loadInitialConditions();
         registerReceivers();
+        cellularOn = SettingsPref.getCellularPref();
         MIN_BATTERY_LEVEL = ((float) SettingsPref.getMinBattery())/100.0F;
         MIN_BATTERY_FORCE_KILL = MIN_BATTERY_LEVEL - .18F;
         MIN_BATTERY_LEVEL_EXEC_THRESHOLD = MIN_BATTERY_LEVEL - .13F;
@@ -449,7 +454,9 @@ public final class ConditionsHandler extends BroadcastReceiver implements AssetC
 
                     // We only want WIFI networks.
                     final boolean inWifiNetwork = activeNetwork != null && activeNetwork
-                            .getType() == ConnectivityManager.TYPE_WIFI;
+                            .getType() == ConnectivityManager.TYPE_WIFI || (cellularOn && activeNetwork
+                            .getType() == ConnectivityManager.TYPE_MOBILE);
+
                     setWifiNetwork(inWifiNetwork);
 
                     // We don't want metered networks.

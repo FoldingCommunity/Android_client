@@ -11,6 +11,7 @@ import com.sonymobile.androidapp.gridcomputing.service.ServiceManager;
 public final class SettingsPref {
     public static final String PREF_FILE = "settings_pref";
     public static final String EXECUTION_ENABLED_KEY = "EXECUTION_ENABLED_KEY";
+    public static final String CELLULAR_ENABLED_KEY = "CELLULAR_ENABLED_KEY";
     public static final String PAUSE_TIME_KEY = "PAUSE_TIME_KEY";
     public static final String HAS_EXECUTED_KEY = "HAS_EXECUTED_KEY";
     public static final String MIN_BATTERY_KEY = "MIN_BATTERY_KEY";
@@ -29,6 +30,12 @@ public final class SettingsPref {
     public static void setMinBattery(int val) {
         PrefUtils.setIntValue(PREF_FILE, MIN_BATTERY_KEY, val);
     }
+
+    //check whether cellular networks are enabled
+    public static boolean getCellularPref() {
+        return PrefUtils.getBooleanValue(PREF_FILE, CELLULAR_ENABLED_KEY, false);
+    }
+
 
     /**
      * Sets the execution flag enable or disable.
