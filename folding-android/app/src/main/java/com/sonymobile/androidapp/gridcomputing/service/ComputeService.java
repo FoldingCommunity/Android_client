@@ -6,12 +6,19 @@
 package com.sonymobile.androidapp.gridcomputing.service;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
 import android.text.TextUtils;
 
 import com.sonymobile.androidapp.gridcomputing.conditions.ConditionsHandler;
@@ -129,9 +136,9 @@ public class ComputeService extends Service implements JobExecutionListener {
         sendDetailsMessage();
 
         if (ConditionsHandler.getInstance().checkEnabledCondition()) {
-            //stopForeground(true);
+            stopForeground(true);
         } else {
-            //stopForeground(false);
+            stopForeground(false);
         }
     }
 
@@ -162,23 +169,36 @@ public class ComputeService extends Service implements JobExecutionListener {
         stopSelf();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String createNotificationChannel(String channelId, String channelName){
+        NotificationChannel chan = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_NONE);
+        chan.setLightColor(Color.BLUE);
+        chan.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        NotificationManager service =  (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        service.createNotificationChannel(chan);
+        return channelId;
+    }
+
     /**
      * Sets the flag run in foreground.
      * @param runInForeground the flag run in foreground.
      */
     private void setForeground(final boolean runInForeground) {
         if (runInForeground) {
-            /*final Notification notification =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                String channelId = createNotificationChannel("folding_service", "Folding@Home Job Execution");
+            }
+            final Notification notification =
                     NotificationHelper.buildNotification(NotificationStatus.STATUS_EXECUTING_JOB);
             if (notification != null && !RUNNING_FOREGROUND.get()) {
                 startForeground(NotificationHelper.NOTIFICATION_ID, notification);
                 mUpdateTimeHandler.removeCallbacks(mUpdateTimeRunnable);
                 mUpdateTimeHandler.postDelayed(mUpdateTimeRunnable, TIME_UPDATE_INTERVAL);
-            }*/
+            }
             RUNNING_FOREGROUND.set(true);
         } else {
             mUpdateTimeHandler.removeCallbacks(mUpdateTimeRunnable);
-            //stopForeground(true);
+            stopForeground(true);
             RUNNING_FOREGROUND.set(false);
         }
     }

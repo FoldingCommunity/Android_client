@@ -5,9 +5,9 @@
 
 package com.sonymobile.androidapp.gridcomputing.activities;
 
+import android.app.AlarmManager;
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.widget.Toolbar;
@@ -49,6 +49,7 @@ import com.sonymobile.androidapp.gridcomputing.utils.ViewUtils;
 import com.sonymobile.androidapp.gridcomputing.views.CheckableImageButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -76,7 +77,7 @@ public class SummaryActivity extends GameLoginActivity implements
     /**
      * Main switch used to turn on/off the contribution.
      */
-    private CheckableImageButton mMenuSwitch;
+    private static CheckableImageButton mMenuSwitch;
 
     /**
      * Text View of description.
@@ -155,6 +156,7 @@ public class SummaryActivity extends GameLoginActivity implements
         logout.setOnClickListener(this);
 
 
+
         /*mBackgroundImage = findViewById(R.id.AnimView);
         Glide.with(this).load(R.drawable.animationnetgif).into(mBackgroundImage);*/
 
@@ -187,6 +189,22 @@ public class SummaryActivity extends GameLoginActivity implements
 
         turnOff();
         AlarmUtils.createAlarm(AlarmUtils.AlarmType.REPEAT_1_MIN);
+
+
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(System.currentTimeMillis());
+//        calendar.set(Calendar.HOUR_OF_DAY, 22);
+//        calendar.set(Calendar.MINUTE, 12);
+//
+//        AlarmUtils.setRTCAlarm(AlarmUtils.AlarmType.SCHEDULED_START.name(), 147855, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, true);
+//
+//        calendar.setTimeInMillis(System.currentTimeMillis());
+//        calendar.set(Calendar.HOUR_OF_DAY, 22);
+//        calendar.set(Calendar.MINUTE, 28);
+//
+//        AlarmUtils.setRTCAlarm(AlarmUtils.AlarmType.SCHEDULED_END.name(), 147856, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, true);
+
+
 
         if (getIntent().getBooleanExtra("login_ggs", false)) {
             doLogin();
@@ -456,6 +474,23 @@ public class SummaryActivity extends GameLoginActivity implements
                 mConditionsIndicator.getChildAt(0).setSelected(true);
             }
         }
+    }
+
+    public static boolean isChecked(){
+        if(mMenuSwitch != null) return mMenuSwitch.isChecked();
+        else return false;
+    }
+
+    public static boolean clickSwitch(){
+        Log.d("CLICK SWITCH");
+        if(mMenuSwitch != null){
+            Log.d("NOT NULL");
+            mMenuSwitch.performClick();
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
     @SuppressWarnings("unused")

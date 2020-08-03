@@ -87,7 +87,12 @@ public final class NotificationHelper {
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         // build notification
-        Notification.Builder notificationBuilder = new Notification.Builder(context);
+        Notification.Builder notificationBuilder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationBuilder = new Notification.Builder(context, "folding_service");
+        }else{
+            notificationBuilder = new Notification.Builder(context);
+        }
         notificationBuilder.setContentTitle(context
                 .getString(R.string.app_name));
         notificationBuilder.setSmallIcon(R.drawable.ic_notification);

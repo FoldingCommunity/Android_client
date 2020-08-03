@@ -34,6 +34,19 @@
             android:title="Mobile Folding"
             android:summary="Allow folding on cellular networks."
             android:defaultValue="false"/>
+        <SwitchPreference
+            android:key="SCHEDULING_KEY"
+            android:title="Schedule Folding"
+            android:summary="Set a daily schedule for folding."
+            android:defaultValue="false"
+            />
+        <com.sonymobile.androidapp.gridcomputing.views.TimePreference
+            android:key="START_TIME"
+            android:title="Start Time"/>
+        <com.sonymobile.androidapp.gridcomputing.views.TimeEndPreference
+            android:key="END_TIME"
+            android:title="End Time"/>
+
 
     </PreferenceCategory>
 

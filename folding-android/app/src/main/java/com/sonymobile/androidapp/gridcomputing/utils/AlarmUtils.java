@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.sonymobile.androidapp.gridcomputing.receivers.AlarmReceiver;
 
@@ -35,6 +36,11 @@ public final class AlarmUtils {
      * Scheduled Alarm pending intent id.
      */
     private static final int ALARM_SCHEDULED_ID = 147854;
+
+    private static final int ALARM_SCHEDULED_START_ID = 147855;
+
+    private static final int ALARM_SCHEDULED_END_ID = 147856;
+
 
     private AlarmUtils() { }
 
@@ -87,9 +93,10 @@ public final class AlarmUtils {
      * @param wakeUp       true if the alarm is set wake up the device when the alarm is triggered.
      *                     False, if it's set to be triggered on the next time the device wakes up.
      */
-    private static void setRTCAlarm(final String intentAction, final int intentId,
+    public static void setRTCAlarm(final String intentAction, final int intentId,
                                     final long startTime, final long interval,
                                     final boolean wakeUp) {
+        System.out.println("SET ALARM");
         final Context context = ApplicationData.getAppContext();
         final Intent intent = new Intent(context, AlarmReceiver.class);
         intent.setAction(intentAction);
@@ -206,6 +213,10 @@ public final class AlarmUtils {
         /**
          * Alarm triggered within a scheduled time.
          */
-        SCHEDULED
+        SCHEDULED,
+
+        SCHEDULED_START,
+
+        SCHEDULED_END
     }
 }
