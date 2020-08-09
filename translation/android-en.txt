@@ -1,0 +1,47 @@
+What username would you like to contribute with?
+
+Congrats! You contributed during the past day.
+
+Log Out
+
+Share
+
+Dashboard
+
+Statistics
+
+Settings
+
+Research Projects You've Contributed To
+
+Research ID (Number)
+
+Cause
+
+User/Team
+
+Percentile
+
+Info 
+
+About Us
+
+Learn more about F@H
+
+Control Board
+
+Folding
+
+Click to enable or disable computation
+
+Minimum percent battery level to start job
+
+Mobile Folding
+
+Schedule Folding
+
+Set a daily schedule for folding
+
+Start time
+
+End time

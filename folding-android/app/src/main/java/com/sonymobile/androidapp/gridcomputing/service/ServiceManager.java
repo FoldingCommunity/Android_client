@@ -5,11 +5,14 @@
 
 package com.sonymobile.androidapp.gridcomputing.service;
 
+
 import android.content.Context;
 import android.content.Intent;
 
 import com.sonymobile.androidapp.gridcomputing.conditions.ConditionsHandler;
 import com.sonymobile.androidapp.gridcomputing.log.Log;
+import com.sonymobile.androidapp.gridcomputing.notifications.NotificationHelper;
+import com.sonymobile.androidapp.gridcomputing.notifications.NotificationStatus;
 import com.sonymobile.androidapp.gridcomputing.preferences.MiscPref;
 import com.sonymobile.androidapp.gridcomputing.preferences.SettingsPref;
 import com.sonymobile.androidapp.gridcomputing.utils.AlarmUtils;
@@ -43,6 +46,7 @@ public final class ServiceManager {
      */
     public static void pause() {
         Log.d("Execution paused for 24hs");
+        NotificationHelper.showNotification(NotificationStatus.STATUS_FINISHED);
         final long time = System.currentTimeMillis();
         MiscPref.setLastBatteryPlateauTime(0);
         SettingsPref.setPausedTime(time);

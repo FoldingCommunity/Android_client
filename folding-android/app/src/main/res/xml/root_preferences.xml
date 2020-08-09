@@ -1,25 +1,29 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android" app:iconSpaceReserved="false">
 
 
-    <PreferenceCategory android:title="Info">
+    <PreferenceCategory android:title="Info"
+        app:iconSpaceReserved="false">
 
     <Preference
         android:summary="Learn more about F@H"
-        android:title="About Us">
+        android:title="About Us"
+        app:iconSpaceReserved="false">
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="https://foldingathome.org/about/" />
+            android:data="https://foldingathome.org/about/"
+            />
     </Preference>
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Control Board">
+    <PreferenceCategory android:title="Control Board" app:iconSpaceReserved="false">
     <SwitchPreference
         android:key="EXECUTION_ENABLED_KEY"
         android:title="Folding"
         android:summary="Click to enable or disable computation."
-        android:defaultValue="true"/>
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"/>
 
         <SeekBarPreference
             android:defaultValue="70"
@@ -27,25 +31,29 @@
             android:max="100"
             android:title="Minimum percent battery level to start job:"
             app:showSeekBarValue="true"
-            app:min="0" />
+            app:min="0"
+            app:iconSpaceReserved="false"/>
 
         <SwitchPreference
             android:key="CELLULAR_ENABLED_KEY"
             android:title="Mobile Folding"
             android:summary="Allow folding on cellular networks."
-            android:defaultValue="false"/>
+            android:defaultValue="false"
+            app:iconSpaceReserved="false"/>
         <SwitchPreference
             android:key="SCHEDULING_KEY"
             android:title="Schedule Folding"
             android:summary="Set a daily schedule for folding."
             android:defaultValue="false"
-            />
+            app:iconSpaceReserved="false"/>
         <com.sonymobile.androidapp.gridcomputing.views.TimePreference
             android:key="START_TIME"
-            android:title="Start Time"/>
+            android:title="Start Time"
+            app:iconSpaceReserved="false"/>
         <com.sonymobile.androidapp.gridcomputing.views.TimeEndPreference
             android:key="END_TIME"
-            android:title="End Time"/>
+            android:title="End Time"
+            app:iconSpaceReserved="false"/>
 
 
     </PreferenceCategory>

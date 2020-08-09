@@ -19,6 +19,7 @@ import android.os.Build;
 import com.sonymobile.androidapp.gridcomputing.R;
 import com.sonymobile.androidapp.gridcomputing.activities.SummaryActivity;
 import com.sonymobile.androidapp.gridcomputing.database.JobCheckpointsContract;
+import com.sonymobile.androidapp.gridcomputing.preferences.RunningPref;
 import com.sonymobile.androidapp.gridcomputing.preferences.SettingsPref;
 import com.sonymobile.androidapp.gridcomputing.service.ServiceManager;
 import com.sonymobile.androidapp.gridcomputing.utils.ApplicationData;
@@ -93,8 +94,7 @@ public final class NotificationHelper {
         }else{
             notificationBuilder = new Notification.Builder(context);
         }
-        notificationBuilder.setContentTitle(context
-                .getString(R.string.app_name));
+        notificationBuilder.setContentTitle(context.getString(R.string.app_name) + " " + RunningPref.getResearchType().toString());
         notificationBuilder.setSmallIcon(R.drawable.ic_notification);
 
         String textNotification = "";
@@ -198,3 +198,5 @@ public final class NotificationHelper {
         }
     }
 }
+
+

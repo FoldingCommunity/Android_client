@@ -165,7 +165,7 @@
     <!-- Menu option to show the details about the current research. -->
     <string name="active_research" xliff:restype="x-GENERIC/MENU/OVERFLOW">Active research</string>
     <!-- Text to show as a notification to warn the user about the time he has contributed in the last 24 hours. The variable is a text formated as time and specified in time_string_weeks, time_string_days, time_string_hours -->
-    <string name="notification_contribution_time" xliff:restype="x-_UNLIMITED">Thanks. This device has contributed %1$s during the last 24h.</string>
+    <string name="notification_contribution_time" xliff:restype="x-_UNLIMITED">Congrats! You contributed %1$s during the past day.</string>
     <!-- Menu option to login into a google account. -->
     <string name="action_login" xliff:restype="x-GENERIC/MENU/OVERFLOW">Sign in</string>
     <!-- Menu option to logout. The first variable is the username, example: "John Doe (Logout)" -->
