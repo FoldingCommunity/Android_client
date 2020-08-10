@@ -1,10 +1,10 @@
 What username would you like to contribute with?
 
+Username
+
 Congrats! You contributed during the past day.
 
 Log Out
-
-Share
 
 Dashboard
 
@@ -19,6 +19,8 @@ Research ID (Number)
 Cause
 
 User/Team
+
+Share
 
 Percentile
 
