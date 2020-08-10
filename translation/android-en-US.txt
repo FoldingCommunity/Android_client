@@ -2,7 +2,7 @@ What username would you like to contribute with?
 
 Username
 
-Congrats! You contributed during the past day.
+Congrats! You contributed during the past day. (24 hours)
 
 Log Out
 
@@ -30,7 +30,7 @@ About Us
 
 Learn more about F@H
 
-Control Board
+Control Board (Software)
 
 Folding
 
