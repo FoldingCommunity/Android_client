@@ -2,12 +2,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android" app:iconSpaceReserved="false">
 
 
-    <PreferenceCategory android:title="Info"
+    <PreferenceCategory android:title="@string/info"
         app:iconSpaceReserved="false">
 
     <Preference
-        android:summary="Learn more about F@H"
-        android:title="About Us"
+        android:summary="@string/aboutDesc"
+        android:title="@string/aboutTitle"
         app:iconSpaceReserved="false">
         <intent
             android:action="android.intent.action.VIEW"
@@ -17,11 +17,11 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Control Board" app:iconSpaceReserved="false">
+    <PreferenceCategory android:title="@string/cbTitle" app:iconSpaceReserved="false">
     <SwitchPreference
         android:key="EXECUTION_ENABLED_KEY"
-        android:title="Folding"
-        android:summary="Click to enable or disable computation."
+        android:title="@string/actionTitle"
+        android:summary="@string/actionDesc"
         android:defaultValue="true"
         app:iconSpaceReserved="false"/>
 
@@ -29,30 +29,30 @@
             android:defaultValue="70"
             android:key="MIN_BATTERY_KEY"
             android:max="100"
-            android:title="Minimum percent battery level to start job:"
+            android:title="@string/batteryTitle"
             app:showSeekBarValue="true"
             app:min="0"
             app:iconSpaceReserved="false"/>
 
         <SwitchPreference
             android:key="CELLULAR_ENABLED_KEY"
-            android:title="Mobile Folding"
-            android:summary="Allow folding on cellular networks."
+            android:title="@string/mobileTitle"
+            android:summary="@string/mobileDes"
             android:defaultValue="false"
             app:iconSpaceReserved="false"/>
         <SwitchPreference
             android:key="SCHEDULING_KEY"
-            android:title="Schedule Folding"
-            android:summary="Set a daily schedule for folding."
+            android:title="@string/schedTitle"
+            android:summary="@string/schedDesc"
             android:defaultValue="false"
             app:iconSpaceReserved="false"/>
         <com.sonymobile.androidapp.gridcomputing.views.TimePreference
             android:key="START_TIME"
-            android:title="Start Time"
+            android:title="@string/start"
             app:iconSpaceReserved="false"/>
         <com.sonymobile.androidapp.gridcomputing.views.TimeEndPreference
             android:key="END_TIME"
-            android:title="End Time"
+            android:title="@string/end"
             app:iconSpaceReserved="false"/>
 
 

@@ -80,6 +80,8 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
                     donorJSON = response.body().string();
                     try {
                         ParseDonorJSON();
+                        TeamStats();
+                        RecentProjects();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -127,6 +129,63 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
                     teamJSON = response.body().string();
                     try {
                         ParseTeamJSON();
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+
+
+                                typeImage = findViewById(R.id.typeImage);
+                                v3 = findViewById(R.id.view3);
+                                prompt = findViewById(R.id.textView2);
+                                creditText = findViewById(R.id.credit_text);
+                                rankText = findViewById(R.id.rank_text);
+                                percentileText = findViewById(R.id.Percentile_text);
+                                name = findViewById(R.id.textView3);
+                                switch1 = findViewById(R.id.switch1);
+                                researchTypeText = findViewById(R.id.researchtype);
+                                researchID = findViewById(R.id.researchid);
+                                researchDescription = findViewById(R.id.desc_text);
+                                researchDescription.setMovementMethod(new ScrollingMovementMethod());
+                                percentileText.setText(String.valueOf(donorpercentile) + " Percentile");
+                                rankText.setText("WUs: " + Integer.toString(donorwus));
+                                creditText.setText(Integer.toString((int) donorCredit) + " Pts.");
+                                progressWheel = findViewById(R.id.progressWheel);
+                                progressWheel.setProgress((int)donorpercentile);
+                                name.setText(donorName);
+                                if(projectInfo[3] == null){
+                                    prompt.setAlpha(0.0F);
+                                    researchID.setAlpha(0.0f);
+                                    researchTypeText.setAlpha(0.0f);
+                                    researchDescription.setAlpha(0.0f);
+                                    v3.setAlpha(0.0f);
+                                } else {
+                                    researchID.setText(projectInfo[0]);
+                                    researchTypeText.setText(Character.toUpperCase(projectInfo[2].charAt(0)) + projectInfo[2].substring(1));
+                                    researchDescription.setText(Html.fromHtml(Html.fromHtml(projectInfo[3]).toString()));
+                                }
+                                switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                    @Override
+                                    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                                        if (isChecked) {
+                                            name.setText(teamName);
+                                            progressWheel.setProgress((int) teamPercentile);
+                                            percentileText.setText(String.valueOf(teamPercentile) + " Percentile");
+                                            rankText.setText("WUs: " + Integer.toString(teamwus));
+                                            creditText.setText(Long.toString(teamCredit) + " Pts.");
+                                        }
+                                        else {
+                                            name.setText(donorName);
+                                            progressWheel.setProgress((int)donorpercentile);
+                                            percentileText.setText(String.valueOf(donorpercentile) + " Percentile");
+                                            rankText.setText("WUs: " + Integer.toString(donorRank));
+                                            creditText.setText(Integer.toString((int) donorCredit) + "Pts.");
+                                        }
+                                    }
+                                });
+
+                            }
+                        });
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -187,7 +246,15 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
                         projectInfo = projectRequests(projectInfo);
                         i++;
                     }
+                    runOnUiThread(new Runnable() {
 
+                        @Override
+                        public void run() {
+
+                            displayResearch(projectInfo);
+
+                        }
+                    });
                 }
             }
         });
@@ -253,55 +320,13 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         Log.d("IN");
         setContentView(R.layout.activity_stats);
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-
-                try {
-                    DonorStats();
-                } catch (Exception ex) {
-                    Log.d(ex.toString());
-                }
-                return null;
-            }
-            @Override
-            protected void onPostExecute(Void result) {
-                percentileText.setText(String.valueOf(donorpercentile) + " Percentile");
-                rankText.setText("WUs: " + Integer.toString(donorwus));
-                creditText.setText(Long.toString(donorCredit) + " Pts.");
-                progressWheel = findViewById(R.id.progressWheel);
-                progressWheel.setProgress((int)donorpercentile);
-                name.setText(donorName);
-                new AsyncTask<Void, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Void... params) {
-
-                        try {
-                            TeamStats();
-                        } catch (Exception ex) {
-                            Log.d(ex.toString());
-                        }
-                        return null;
-                    }
-                    @Override
-                    protected void onPostExecute(Void result) {
-                        switch1.setVisibility(View.VISIBLE);
-
-                    }
-                }.execute();
-            }
-        }.execute();
-
-        try {
-            sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        DonorStats();
         Log.d("1");
         //TeamStats();
         Log.d("2");
         //RecentProjects();
         Log.d("3");
+        findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
         Log.d(String.valueOf(donorCredit));
         Log.d(String.valueOf(donorpercentile));
         Log.d(String.valueOf(donorRank));
@@ -359,19 +384,20 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
                 if (isChecked) {
                     name.setText(teamName);
                     progressWheel.setProgress((int) teamPercentile);
-                    percentileText.setText(String.valueOf(teamPercentile) + " Percentile");
+                    percentileText.setText(String.valueOf(teamPercentile) + getString(R.string.percent));
                     rankText.setText("WUs: " + Integer.toString(teamwus));
                     creditText.setText(Long.toString(teamCredit) + " Pts.");
                 }
                 else {
                     name.setText(donorName);
                     progressWheel.setProgress((int)donorpercentile);
-                    percentileText.setText(String.valueOf(donorpercentile) + " Percentile");
+                    percentileText.setText(String.valueOf(donorpercentile) + getString(R.string.percent));
                     rankText.setText("WUs: " + Integer.toString(donorRank));
                     creditText.setText(Long.toString(donorCredit) + "Pts.");
                 }
             }
         });
+        switch1.setVisibility(View.VISIBLE);
 
         BottomNavigationView navView = findViewById(R.id.nav_view1);
         navView.setSelectedItemId(R.id.navigation_home);
@@ -400,65 +426,15 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         });
 
 
-        new AsyncTask<Void,Void,Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-
-                try {
-                    Log.d("in here");
-                    final OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder()
-                            .url(url3)
-                            .build();
-                    client.newCall(request).enqueue(new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        public void onResponse(Call call, Response response) throws IOException {
-                            if (response.isSuccessful()) {
-                                String f = response.body().string();
-                                projectsList = f.substring(1, f.length() - 1);
-                                String[] temparr = projectsList.split(",");
-                                int i=0;
-
-                                while (projectInfo[3]==null && i<temparr.length){
-                                    Log.d("while loop");
-                                    Log.d(projectInfo[3]);
-                                    projectInfo[0] = temparr[temparr.length - 1 - i];
-                                    projectInfo = projectRequests(projectInfo);
-                                    i++;
-                                }
-                                Log.d("PI:" + projectInfo[3]);
-
-                            }
-                        }
-                    });
-                } catch (Exception ex) {
-                    Log.d(ex.toString());
-                }
-                return null;
-            }
-            @Override
-            protected void onPostExecute(Void result) {
-                try {
-                    sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                displayResearch();
-            }
-        }.execute();
-
 
         Log.d("all the way through");
 
     }
 
 
-    public void displayResearch(){
+    public void displayResearch(String [] projectInfo){
         Log.d("DISPLAY: " + projectInfo[2]);
+        findViewById(R.id.loadingPanel).setVisibility(View.GONE);
         if(projectInfo[3] == null){
             prompt.setAlpha(0.0F);
             researchID.setAlpha(0.0f);

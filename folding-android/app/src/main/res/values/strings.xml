@@ -266,6 +266,30 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="actionTitle">Folding</string>
+    <string name="schedTitle">Schedule Folding</string>
+    <string name="mobileTitle">Mobile Folding</string>
+    <string name="mobileDes">Allow folding on cellular networks.</string>
+    <string name="batteryTitle">Minimum percent battery level to start job:</string>
+    <string name="actionDesc">Click to enable or disable computation.</string>
+    <string name="aboutDesc">Learn more about F@H</string>
+    <string name="aboutTitle">About Us</string>
+    <string name="schedDesc">Set a daily schedule for folding.</string>
+    <string name="info">Info</string>
+    <string name="cbTitle">Control Board</string>
+    <string name="start">Start Time</string>
+    <string name="end">End Time</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="statistics">Statistics</string>
+    <string name="username">Username</string>
+    <string name="loginText">What username would you like to contribute with?</string>
+    <string name="log_out">Log Out</string>
+    <string name="recent_projects">Recent Projects You\'ve Contributed To:</string>
+    <string name="user_team">User/Team</string>
+    <string name="cause">Cause: </string>
+    <string name="percent"> Percentile</string>
+    <string name="r_id">Research ID: </string>
+
     <string-array name="help_find_cure" xliff:restype="x-_UNLIMITED">
 
         <!-- Information about what you are contributing to when you join Folding@Home Project (Folding@Home should not be translated) -->
