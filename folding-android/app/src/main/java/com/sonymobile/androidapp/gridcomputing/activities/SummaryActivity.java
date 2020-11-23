@@ -105,7 +105,7 @@ public class SummaryActivity extends GameLoginActivity implements
     private ImageView mBackgroundImage;
 
     /**
-     * The parent view onf the conditions layout.
+     * The parent view of the conditions layout.
      */
     private View mConditionsLayout;
 

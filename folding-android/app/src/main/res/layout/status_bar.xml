@@ -10,7 +10,7 @@
     android:orientation="horizontal"
     android:paddingEnd="@dimen/margin_small"
     android:paddingStart="@dimen/margin_small"
-    android:background="#1B1212"
+    android:background="#222222"
     android:weightSum="6.0" >
 
     <ImageView

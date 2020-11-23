@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sonymobile.androidapp.gridcomputing.R;
+import com.sonymobile.androidapp.gridcomputing.adapters.ConditionsSlidePagerAdapter;
+import com.sonymobile.androidapp.gridcomputing.adapters.StatsPagerAdapter;
 import com.sonymobile.androidapp.gridcomputing.log.Log;
 
 import android.content.Intent;
@@ -16,13 +18,17 @@ import android.view.View;
 
 
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.viewpager.widget.ViewPager;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -61,6 +67,26 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
     private String url3="https://api.foldingathome.org/user/"+donorName+"/projects";
     private String projectsList="";
     private String[] projectInfo = new String[4];
+
+
+    /**
+     * The parent view of the Stats layout.
+     */
+    private View mStatsLayout;
+    /**
+     * The viewpager used to render the Stats.
+     */
+    private ViewPager mStatsViewPager;
+
+    /**
+     * The viewgroup that contains all the indicators.
+     */
+    private ViewGroup mStatsIndicator;
+
+    /**
+     * The Stats page adapter.
+     */
+    private StatsPagerAdapter mAdapter;
 
     //layout variabes
 
@@ -138,21 +164,68 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
                                 typeImage = findViewById(R.id.typeImage);
                                 v3 = findViewById(R.id.view3);
                                 prompt = findViewById(R.id.textView2);
-                                creditText = findViewById(R.id.credit_text);
-                                rankText = findViewById(R.id.rank_text);
-                                percentileText = findViewById(R.id.Percentile_text);
-                                name = findViewById(R.id.textView3);
-                                switch1 = findViewById(R.id.switch1);
+
                                 researchTypeText = findViewById(R.id.researchtype);
                                 researchID = findViewById(R.id.researchid);
                                 researchDescription = findViewById(R.id.desc_text);
                                 researchDescription.setMovementMethod(new ScrollingMovementMethod());
-                                percentileText.setText(String.valueOf(donorpercentile) + " Percentile");
-                                rankText.setText("WUs: " + Integer.toString(donorwus));
-                                creditText.setText(Integer.toString((int) donorCredit) + " Pts.");
-                                progressWheel = findViewById(R.id.progressWheel);
-                                progressWheel.setProgress((int)donorpercentile);
-                                name.setText(donorName);
+
+
+                                mStatsLayout = findViewById(R.id.stats_conditions_layout);
+                                mStatsViewPager = (ViewPager) findViewById(R.id.stats_view_pager);
+                                mStatsIndicator = (ViewGroup) findViewById(R.id.stats_page_indicator_container);
+
+
+                                if (mAdapter == null) {
+                                    mAdapter = new StatsPagerAdapter(getSupportFragmentManager());
+
+
+                                    mStatsViewPager.setAdapter(mAdapter);
+
+
+                                    mStatsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                                        @Override
+                                        public void onPageScrolled(final int position,
+                                                                   final float positionOffset,
+                                                                   final int positionOffsetPixels) {
+
+                                        }
+
+                                        @Override
+                                        public void onPageSelected(final int position) {
+                                            //updates the indicator selection
+                                            for (int i = 0; i < mStatsIndicator.getChildCount(); i++) {
+                                                mStatsIndicator.getChildAt(i).setSelected(i == position);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onPageScrollStateChanged(final int state) {
+
+                                        }
+                                    });
+                                }
+
+                                List<String> namePay = new ArrayList<>();
+                                namePay.add(donorName); namePay.add(teamName);
+                                List<long []> statsPay = new ArrayList<>();
+                                long [] donorStats = {(long) donorpercentile, (long) donorwus, (long) donorCredit};
+                                statsPay.add(donorStats);
+                                long [] teamStats = {(long) teamPercentile, (long) teamwus, (long) teamCredit};
+                                statsPay.add(teamStats);
+
+                                mAdapter.setStats(namePay, statsPay);
+
+                                //adding the indicators and selecting the first one
+                                mStatsIndicator.removeAllViews();
+
+                                for (int i = 0; i < 2; i++) {
+                                    View.inflate(getApplicationContext(), R.layout.view_pager_indicator, mStatsIndicator);
+                                }
+                                mStatsIndicator.getChildAt(0).setSelected(true);
+
+
+
                                 if(projectInfo[3] == null){
                                     prompt.setAlpha(0.0F);
                                     researchID.setAlpha(0.0f);
@@ -164,25 +237,7 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
                                     researchTypeText.setText(Character.toUpperCase(projectInfo[2].charAt(0)) + projectInfo[2].substring(1));
                                     researchDescription.setText(Html.fromHtml(Html.fromHtml(projectInfo[3]).toString()));
                                 }
-                                switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                    @Override
-                                    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                                        if (isChecked) {
-                                            name.setText(teamName);
-                                            progressWheel.setProgress((int) teamPercentile);
-                                            percentileText.setText(String.valueOf(teamPercentile) + " Percentile");
-                                            rankText.setText("WUs: " + Integer.toString(teamwus));
-                                            creditText.setText(Long.toString(teamCredit) + " Pts.");
-                                        }
-                                        else {
-                                            name.setText(donorName);
-                                            progressWheel.setProgress((int)donorpercentile);
-                                            percentileText.setText(String.valueOf(donorpercentile) + " Percentile");
-                                            rankText.setText("WUs: " + Integer.toString(donorRank));
-                                            creditText.setText(Integer.toString((int) donorCredit) + "Pts.");
-                                        }
-                                    }
-                                });
+
 
                             }
                         });
@@ -294,24 +349,19 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         return temparr2;
     }
 
-    // layout elements variables
-    private TextView creditText;
-    private TextView rankText;
-    private TextView percentileText;
-    private Switch switch1;
+    // layout element variables
+
+
+
+
     private TextView researchTypeText;
     private TextView researchID;
-    private TextView name;
+
     private TextView researchDescription;
     private TextView prompt;
     private ImageView typeImage;
-    private ProgressBar progressWheel;
+
     private Button share;
-    private Button b1;
-    private Button b2;
-    private Button b3;
-    private Button b4;
-    private Button b5;
     private View v3;
 
 
@@ -338,30 +388,17 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         typeImage = findViewById(R.id.typeImage);
         typeImage.setVisibility(View.GONE);
         v3 = findViewById(R.id.view3);
+
         prompt = findViewById(R.id.textView2);
-        creditText = findViewById(R.id.credit_text);
-        rankText = findViewById(R.id.rank_text);
-        percentileText = findViewById(R.id.Percentile_text);
-        name = findViewById(R.id.textView3);
-        switch1 = findViewById(R.id.switch1);
-        switch1.setVisibility(View.GONE);
+
         researchTypeText = findViewById(R.id.researchtype);
         researchID = findViewById(R.id.researchid);
         researchDescription = findViewById(R.id.desc_text);
         researchDescription.setMovementMethod(new ScrollingMovementMethod());
+
+
         share = findViewById(R.id.shareButton);
         share.setOnClickListener(this);
-     /*   percentileText.setText(String.valueOf(donorpercentile) + " Percentile");
-        rankText.setText("WUs: " + Integer.toString(donorwus));
-        creditText.setText(Long.toString(donorCredit) + " Pts.");
-        progressWheel = findViewById(R.id.progressWheel);
-        progressWheel.setProgress((int)donorpercentile);
-        name.setText(donorName); */
-       /* b1 = findViewById(R.id.button2);
-        b2 = findViewById(R.id.button3);
-        b3 = findViewById(R.id.button4);
-        b4 = findViewById(R.id.button5);
-        b5 = findViewById(R.id.button6); */
         if(projectInfo[3] == null){
             prompt.setAlpha(0.0F);
             researchID.setAlpha(0.0f);
@@ -373,31 +410,7 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
             researchTypeText.setText(Character.toUpperCase(projectInfo[2].charAt(0)) + projectInfo[2].substring(1));
             researchDescription.setText(Html.fromHtml(Html.fromHtml(projectInfo[3]).toString()));
         }
-     /*   b1.setOnClickListener(this);
-        b2.setOnClickListener(this);
-        b3.setOnClickListener(this);d
-        b4.setOnClickListener(this);
-        b5.setOnClickListener(this); */
-        switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    name.setText(teamName);
-                    progressWheel.setProgress((int) teamPercentile);
-                    percentileText.setText(String.valueOf(teamPercentile) + getString(R.string.percent));
-                    rankText.setText("WUs: " + Integer.toString(teamwus));
-                    creditText.setText(Long.toString(teamCredit) + " Pts.");
-                }
-                else {
-                    name.setText(donorName);
-                    progressWheel.setProgress((int)donorpercentile);
-                    percentileText.setText(String.valueOf(donorpercentile) + getString(R.string.percent));
-                    rankText.setText("WUs: " + Integer.toString(donorRank));
-                    creditText.setText(Long.toString(donorCredit) + "Pts.");
-                }
-            }
-        });
-        switch1.setVisibility(View.VISIBLE);
+
 
         BottomNavigationView navView = findViewById(R.id.nav_view1);
         navView.setSelectedItemId(R.id.navigation_home);
@@ -476,10 +489,6 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
 
 
 
-
-
-
-
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -489,51 +498,6 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
                 String shareBody = "I completed " + String.valueOf(donorwus) + " Work Units and earned " + String.valueOf(donorCredit) + " points for Folding@Home";
                 i.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(i, "Share via"));
-          /*  case R.id.button2:
-                UpdateResearch(0);
-                b1.setBackgroundColor(getResources().getColor(R.color.orange));
-                b2.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-                b3.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-                b4.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-                b5.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-
-            case R.id.button3:
-                UpdateResearch(1);
-                b2.setBackgroundColor(getResources().getColor(R.color.orange));
-                b1.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-                b3.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-                b4.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-                b5.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-
-            case R.id.button4:
-                UpdateResearch(2);
-                b3.setBackgroundColor(getResources().getColor(R.color.orange));
-                b2.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-                b1.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-                b4.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-                b5.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-
-            case R.id.button5:
-                UpdateResearch(3);
-                b4.setBackgroundColor(getResources().getColor(R.color.orange));
-                b2.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-                b3.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-                b1.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-                b5.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-
-            case R.id.button6:
-                UpdateResearch(4);
-                b5.setBackgroundColor(getResources().getColor(R.color.orange));
-                b2.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-                b3.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-                b4.setBackgroundColor(getResources().getColor(R.color.sony_gray));
-                b1.setBackgroundColor(getResources().getColor(R.color.sony_gray));*/
-
-
-
-
-
-
         }
 
     }
